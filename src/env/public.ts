@@ -1,3 +1,6 @@
+/*
+ * This file is for public environment variables that are safe to be exposed to the client.
+ */
 import z from "zod";
 
 const devModeOverrides = {
