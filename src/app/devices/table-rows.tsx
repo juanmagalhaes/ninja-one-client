@@ -20,7 +20,7 @@ export default async function DeviceTableRows() {
       {devices.map((device) => {
         const DeviceIcon = DEVICE_ICON_MAP[device.type];
         return (
-          <TableRow key={device.id}>
+          <TableRow key={device.id} className="border-muted">
             <TableCell className="flex flex-col gap-1">
               <h3 className="flex gap-1 items-center font-medium leading-[100%]">
                 <DeviceIcon /> {device.systemName}
