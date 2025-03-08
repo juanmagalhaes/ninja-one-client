@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Topbar from "@/components/layout/Topbar";
+import Topbar from "@/components/layout/topbar";
 
 const inter = Inter({
-  variable: "--font-inter-sans",
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
