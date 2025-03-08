@@ -9,9 +9,13 @@ const devModeOverrides = {
   }),
 };
 
-const publicEnvSchema = z.object({
-  NODE_ENV: z.enum(["development", "production"]).default("development"),
+console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 
+const publicEnvSchema = z.object({
+  // Automatically set by next.js
+  NODE_ENV: z.enum(["development", "production"]),
+
+  // Needs to be set in production
   API_URL: z.string({
     message: "API_URL is required in production",
   }),
