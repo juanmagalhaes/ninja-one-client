@@ -1,8 +1,9 @@
 /**
- * For a detailed explanation regarding each configuration property, visit:
- * https://jestjs.io/docs/configuration
+ * Jest configuration for unit tests.
+ * Only for unit tests. For e2e we're using playwright.
+ *
+ * @see https://jestjs.io/docs/configuration
  */
-
 import type { Config } from "jest";
 
 const config: Config = {
