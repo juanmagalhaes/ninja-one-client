@@ -1,3 +1,4 @@
+import { PlusSign } from "@/components/svgs/plus-sign";
 import { ButtonLink } from "@/components/ui/button-link";
 
 export default function DeviceHomeLayout({
@@ -11,7 +12,7 @@ export default function DeviceHomeLayout({
         <h1 className="text-xl leading-5 font-medium">Devices</h1>
 
         <ButtonLink href="/devices/add" size="lg">
-          Add Device
+          <PlusSign /> Add Device
         </ButtonLink>
       </header>
 
