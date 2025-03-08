@@ -1,3 +1,4 @@
+import { ENV } from "@/env/public";
 import { HttpClient } from "../http-client";
 
 export type Device = {
@@ -7,8 +8,7 @@ export type Device = {
   hddCapacity: string;
 };
 
-// TODO make this come from env vars
-const _baseUrl = "http://localhost:3000";
+const _baseUrl = ENV.API_URL;
 
 class DevicesAPI {
   private client: HttpClient;
