@@ -1,3 +1,5 @@
+import { toCamelCase, toSnakeCase } from "./case-utils";
+
 export class HttpClient {
   private baseUrl: string;
 
@@ -10,7 +12,8 @@ export class HttpClient {
     if (!response.ok) {
       throw new Error(`HTTP Error: ${response.status}`);
     }
-    return response.json();
+    const jsonData = (await response.json()) as unknown;
+    return toCamelCase<T>(jsonData);
   }
 
   get<T>(url: string): Promise<T> {
@@ -21,7 +24,7 @@ export class HttpClient {
     return this.request<T>(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(toSnakeCase(body)),
     });
   }
 
@@ -29,7 +32,7 @@ export class HttpClient {
     return this.request<T>(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(toSnakeCase(body)),
     });
   }
 
