@@ -6,8 +6,8 @@ export default function DeviceHomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-col pt-8 px-6">
-      <header className="mb-6 flex justify-between items-center">
+    <main className="flex flex-col pt-8 px-6 gap-4">
+      <header className="mb-2 flex justify-between items-center">
         <h1 className="text-xl leading-5 font-medium">Devices</h1>
 
         <ButtonLink href="/devices/add" size="lg">

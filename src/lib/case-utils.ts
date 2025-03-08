@@ -33,3 +33,7 @@ export function toSnakeCase<T>(data: T): Record<string, unknown> | T {
 
   return data;
 }
+
+export function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

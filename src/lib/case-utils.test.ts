@@ -1,6 +1,6 @@
 import { describe } from "node:test";
 
-import { toCamelCase, toSnakeCase } from "@/lib/case-utils";
+import { capitalize, toCamelCase, toSnakeCase } from "@/lib/case-utils";
 
 describe("case-utils", () => {
   it("should convert snake_case to camelCase", () => {
@@ -15,5 +15,9 @@ describe("case-utils", () => {
       first_name: "John",
       last_name: "Doe",
     });
+  });
+
+  it("should convert first letter to uppercase", () => {
+    expect(capitalize("hello")).toBe("Hello");
   });
 });
