@@ -32,6 +32,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = deviceSchema.omit({ id: true });
@@ -53,8 +54,9 @@ export default function AddDeviceModal() {
     try {
       await createDevice(values);
       onClose();
+      toast.success("Device created successfully.");
     } catch (error) {
-      // TODO display toast
+      toast.error("There was an error creating the device.");
       console.error(error);
     }
   }
