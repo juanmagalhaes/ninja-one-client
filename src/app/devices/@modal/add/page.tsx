@@ -37,7 +37,7 @@ import { z } from "zod";
 
 const formSchema = deviceSchema.omit({ id: true });
 
-export default function AddDeviceModal() {
+export default function DeviceModal() {
   const router = useRouter();
   const onClose = useCallback(() => router.back(), [router]);
 
