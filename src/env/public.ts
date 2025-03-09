@@ -9,8 +9,6 @@ const devModeOverrides = {
   }),
 };
 
-console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-
 const publicEnvSchema = z.object({
   // Automatically set by next.js
   NODE_ENV: z.enum(["development", "production"]),

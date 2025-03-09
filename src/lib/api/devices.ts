@@ -1,12 +1,21 @@
 import { ENV } from "@/env/public";
 import { HttpClient } from "../http-client";
+import { z } from "zod";
 
-export type Device = {
-  id: string;
-  systemName: string;
-  type: "WINDOWS" | "MAC" | "LINUX";
-  hddCapacity: string;
-};
+export const deviceTypeSchema = z.enum(["WINDOWS", "MAC", "LINUX"]);
+
+export const deviceSchema = z.object({
+  id: z.string(),
+  systemName: z.string().nonempty("System name is required."),
+  type: deviceTypeSchema,
+  // The API expects HDD Capacity as a string but the value stored should be a number
+  hddCapacity: z
+    .string()
+    .nonempty("HDD capacity is required.")
+    .transform((v) => v.replace(/\D/g, "")),
+});
+
+export type Device = z.infer<typeof deviceSchema>;
 
 const _baseUrl = ENV.API_URL;
 
