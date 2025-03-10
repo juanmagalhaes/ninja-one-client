@@ -1,5 +1,0 @@
-import { DevicesPageContent } from "./page-content";
-
-export default async function DevicesHome() {
-  return <DevicesPageContent />;
-}

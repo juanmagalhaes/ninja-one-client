@@ -8,8 +8,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeviceTableRows from "./table-rows";
+import ModalEntry from "./_modal/entry";
 
-export async function DevicesPageContent() {
+export type DevicesHomeProps = {
+  params: Promise<{ paths: (string | undefined)[] }>;
+  searchParams: Promise<{ systemName: string }>;
+};
+
+export default async function DevicesHome(props: DevicesHomeProps) {
+  const [pathname] = (await props.params).paths ?? [];
+  const { systemName } = await props.searchParams;
+
+  console.log(">>>> devices/page.tsx: ", pathname, systemName);
+
   return (
     <>
       <section className="flex">TODO - Filter Section</section>
@@ -29,6 +40,10 @@ export async function DevicesPageContent() {
           </Suspense>
         </TableBody>
       </Table>
+
+      <Suspense fallback={<div>TODO implement modal loading fallback...</div>}>
+        <ModalEntry pathname={pathname} />
+      </Suspense>
     </>
   );
 }

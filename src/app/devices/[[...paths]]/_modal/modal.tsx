@@ -44,13 +44,6 @@ type DeviceModalProps = {
 
 /*
  * The DeviceModal component is used to create or edit a device.
- *
- * TODO
- * Abstract the modal logic into a reusable component.
- * And move them into the layout of the @modal folder.
- * This way it will open the modal immediately after
- * navigation and the content of the modal is stremed
- * from the server when its ready.
  */
 export function DeviceModal({ device }: DeviceModalProps) {
   const router = useRouter();
