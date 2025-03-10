@@ -1,4 +1,4 @@
-import { formatHddCapacity } from "../utils";
+import { formatHddCapacity } from "./utils";
 
 describe("devices/utils", () => {
   it("should format hdd capacity", () => {

@@ -7,23 +7,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeviceTableRows from "./table-rows";
-import ModalEntry from "./_modal/entry";
+import DeviceModalEntry from "./modal";
+import { DevicePageSearchParams, devicePageSearchParamsSchema } from "./types";
+import DeviceTableContents from "./table-contents";
+import { DevicesFiltersSection } from "./_client/filter-section";
 
 export type DevicesHomeProps = {
   params: Promise<{ paths: (string | undefined)[] }>;
-  searchParams: Promise<{ systemName: string }>;
+  searchParams: Promise<DevicePageSearchParams>;
 };
 
+/*
+ * Server component. Renders device list and filter section.
+ *
+ * The components wrapped by Suspense are lazy loaded. The
+ * request that gets fired insed them is made and then the
+ * results get streamed to the client.
+ */
 export default async function DevicesHome(props: DevicesHomeProps) {
   const [pathname] = (await props.params).paths ?? [];
-  const { systemName } = await props.searchParams;
-
-  console.log(">>>> devices/page.tsx: ", pathname, systemName);
+  const searchParams = devicePageSearchParamsSchema.parse(
+    await props.searchParams,
+  );
 
   return (
     <>
-      <section className="flex">TODO - Filter Section</section>
+      <DevicesFiltersSection />
 
       <Table>
         <TableHeader>
@@ -36,13 +45,13 @@ export default async function DevicesHome(props: DevicesHomeProps) {
 
         <TableBody>
           <Suspense fallback={<div>TODO improve this Loading...</div>}>
-            <DeviceTableRows />
+            <DeviceTableContents {...searchParams} />
           </Suspense>
         </TableBody>
       </Table>
 
       <Suspense fallback={<div>TODO implement modal loading fallback...</div>}>
-        <ModalEntry pathname={pathname} />
+        <DeviceModalEntry pathname={pathname} />
       </Suspense>
     </>
   );

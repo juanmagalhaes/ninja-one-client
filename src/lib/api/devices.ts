@@ -16,6 +16,7 @@ export const deviceSchema = z.object({
 });
 
 export type Device = z.infer<typeof deviceSchema>;
+export type DeviceType = Device["type"];
 
 const _baseUrl = ENV.API_URL;
 

@@ -1,11 +1,11 @@
 import { devicesAPI } from "@/lib/api/devices";
-import { DeviceModal } from "./modal";
+import { DeviceModal } from "./_client/modal";
 
 type ModalEntryProps = {
   pathname?: string;
 };
 
-export default async function ModalEntry({ pathname }: ModalEntryProps) {
+export default async function DeviceModalEntry({ pathname }: ModalEntryProps) {
   if (!pathname) {
     return null;
   }

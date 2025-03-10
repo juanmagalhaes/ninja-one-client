@@ -25,7 +25,7 @@ import { Device } from "@/lib/api/devices";
 import { capitalize } from "@/lib/case-utils";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { formatHddCapacity } from "./utils";
+import { formatHddCapacity } from "../utils";
 
 const MediaQuery = dynamic(() => import("react-responsive"), { ssr: false });
 
