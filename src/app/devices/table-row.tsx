@@ -13,7 +13,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Popover,
@@ -21,12 +20,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { deleteDevice } from "@/lib/api/actions";
 import { Device } from "@/lib/api/devices";
 import { capitalize } from "@/lib/case-utils";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { formatHddCapacity } from "./utils";
-import { deleteDevice } from "@/lib/api/actions";
 
 const MediaQuery = dynamic(() => import("react-responsive"), { ssr: false });
 
