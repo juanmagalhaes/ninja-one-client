@@ -7,6 +7,15 @@ import { WindowsLogo } from "@/components/svgs/windows-logo";
 import { Button } from "@/components/ui/button";
 import { ButtonLink } from "@/components/ui/button-link";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -14,9 +23,10 @@ import {
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Device } from "@/lib/api/devices";
 import { capitalize } from "@/lib/case-utils";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { formatHddCapacity } from "./utils";
-import dynamic from "next/dynamic";
+import { deleteDevice } from "@/lib/api/actions";
 
 const MediaQuery = dynamic(() => import("react-responsive"), { ssr: false });
 
@@ -30,12 +40,15 @@ const DEVICE_ICON_MAP = {
   LINUX: LinuxLogo,
 } as const;
 
+const twMdBreakpoint = 768;
+
 export function DeviceTableRow({ device }: DeviceTableRowProps) {
   const [isHovered, setIsHovered] = useState(false);
   const DeviceIcon = DEVICE_ICON_MAP[device.type];
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
-    <MediaQuery maxWidth={768}>
+    <MediaQuery maxWidth={twMdBreakpoint}>
       {(isMobile) => (
         <TableRow
           key={device.id}
@@ -71,13 +84,52 @@ export function DeviceTableRow({ device }: DeviceTableRowProps) {
                     Edit
                   </ButtonLink>
 
-                  <Button variant="link" className="text-destructive">
+                  <Button
+                    variant="link"
+                    className="text-destructive"
+                    onClick={() => setDeleteDialogOpen(true)}
+                  >
                     Delete
                   </Button>
                 </PopoverContent>
               </Popover>
             </TableCell>
           )}
+
+          <Dialog
+            open={deleteDialogOpen}
+            onOpenChange={() => setDeleteDialogOpen(false)}
+          >
+            <DialogContent>
+              <DialogHeader className="mb-4">
+                <DialogTitle className="font-medium text-2xl leading-[100%]">
+                  Delete device?
+                </DialogTitle>
+
+                <DialogDescription className="text-foreground font-medium my-4">
+                  You are about to delete the device{" "}
+                  <strong>{device.systemName}</strong>. This action cannot be
+                  undone.
+                </DialogDescription>
+              </DialogHeader>
+
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  className="text-foreground"
+                  onClick={() => setDeleteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => deleteDevice(device.id)}
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </TableRow>
       )}
     </MediaQuery>
