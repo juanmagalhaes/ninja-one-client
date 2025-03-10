@@ -30,7 +30,11 @@
     "prettier.config.js",
     "prettier.config.js",
     ".local/default.tsx",
-    ".local/default.tsx"
+    ".local/default.tsx",
+    ".local/@modal/loading.tsx",
+    ".local/@modal/loading.tsx",
+    ".local/loading.tsx",
+    ".local/loading.tsx"
   ],
   "exclude": ["node_modules"]
 }
