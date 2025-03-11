@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/select";
 import { createDevice, updateDevice } from "@/lib/api/actions";
 import { Device, deviceSchema, deviceTypeSchema } from "@/lib/api/devices";
-import { capitalize } from "@/lib/case-utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -35,6 +34,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { formatType } from "../utils";
 
 const formSchema = deviceSchema.omit({ id: true });
 
@@ -142,7 +142,7 @@ export function DeviceModal({ device }: DeviceModalProps) {
                     <SelectContent>
                       {deviceTypeSchema.options.map((type) => (
                         <SelectItem key={type} value={type}>
-                          {capitalize(type.toLowerCase())}
+                          {formatType(type)}
                         </SelectItem>
                       ))}
                     </SelectContent>

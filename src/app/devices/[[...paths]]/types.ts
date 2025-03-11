@@ -15,8 +15,8 @@ const sortBySchema = z.enum(["name", "hddCapacity", ""]).optional().default("");
 const orderSchema = z.nativeEnum(SortOrder).optional().default(SortOrder.ASC);
 
 export const devicePageSortSchema = z.object({
-  sortBy: sortBySchema,
-  order: orderSchema,
+  sortBy: sortBySchema.nullable(),
+  order: orderSchema.nullable(),
 });
 
 export type DevicePageFilters = z.infer<typeof devicePageFiltersSchema>;
