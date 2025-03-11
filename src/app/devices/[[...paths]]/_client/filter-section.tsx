@@ -2,6 +2,7 @@
 
 import { Search } from "@/components/svgs/search";
 import { TurningArrows } from "@/components/svgs/turning-arrows";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,6 +11,8 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
+import { useState } from "react";
+import { toast } from "sonner";
 import {
   DevicePageSearchParams,
   DeviceTypeSearch,
@@ -17,9 +20,6 @@ import {
 } from "../types";
 import { formatType } from "../utils";
 import { useQueryFilterStateSync } from "./hooks";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 type DevicesFiltersSectionProps = {} & DevicePageSearchParams;
 
@@ -49,6 +49,14 @@ const sortOptions = [
 export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
   const { updateQuery, ...filterState } = useQueryFilterStateSync(props);
   const [iconRotation, setIconRotation] = useState(0);
+
+  function handleResetFilters() {
+    setIconRotation((prev) => prev + 360);
+    updateQuery(null);
+    toast("Filters have been reset", {
+      duration: 1200,
+    });
+  }
 
   return (
     <section className="flex gap-2">
@@ -107,10 +115,7 @@ export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
 
       <Button
         variant="ghost"
-        onClick={() => {
-          setIconRotation((prev) => prev + 360);
-          updateQuery(null);
-        }}
+        onClick={handleResetFilters}
         className="ml-auto cursor-pointer"
       >
         <TurningArrows
