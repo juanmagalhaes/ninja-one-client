@@ -26,6 +26,7 @@ import { capitalize } from "@/lib/case-utils";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { formatHddCapacity } from "../utils";
+import { toast } from "sonner";
 
 const MediaQuery = dynamic(() => import("react-responsive"), { ssr: false });
 
@@ -45,6 +46,16 @@ export function DeviceTableRow({ device }: DeviceTableRowProps) {
   const [isHovered, setIsHovered] = useState(false);
   const DeviceIcon = DEVICE_ICON_MAP[device.type];
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  function handleDelete() {
+    try {
+      deleteDevice(device.id);
+      toast.success("Device deleted successfully.");
+    } catch (error) {
+      toast.error("There was an error deleting the device.");
+      console.error(error);
+    }
+  }
 
   return (
     <MediaQuery maxWidth={twMdBreakpoint}>
@@ -120,10 +131,7 @@ export function DeviceTableRow({ device }: DeviceTableRowProps) {
                 >
                   Cancel
                 </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => deleteDevice(device.id)}
-                >
+                <Button variant="destructive" onClick={handleDelete}>
                   Delete
                 </Button>
               </DialogFooter>
