@@ -7,7 +7,7 @@ export default function DeviceHomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-col pt-8 px-6 gap-4">
+    <main className="flex flex-col pt-8 px-6 gap-6">
       <header className="mb-2 flex justify-between items-center">
         <h1 className="text-xl leading-5 font-medium">Devices</h1>
 

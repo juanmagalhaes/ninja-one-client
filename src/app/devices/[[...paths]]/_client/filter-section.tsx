@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "@/components/svgs/search";
+import { TurningArrows } from "@/components/svgs/turning-arrows";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -8,7 +9,6 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { deviceTypeSchema } from "@/lib/api/devices";
 import { SelectValue } from "@radix-ui/react-select";
 import {
   DevicePageSearchParams,
@@ -17,6 +17,9 @@ import {
 } from "../types";
 import { formatType } from "../utils";
 import { useQueryFilterStateSync } from "./hooks";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 type DevicesFiltersSectionProps = {} & DevicePageSearchParams;
 
@@ -45,6 +48,7 @@ const sortOptions = [
 
 export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
   const { updateQuery, ...filterState } = useQueryFilterStateSync(props);
+  const [iconRotation, setIconRotation] = useState(0);
 
   return (
     <section className="flex gap-2">
@@ -77,7 +81,7 @@ export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
       </Select>
 
       <Select
-        value={`${filterState.sortBy ?? "systemName"}.${filterState.order ?? "asc"}`}
+        value={`${filterState.sortBy}.${filterState.order}`}
         onValueChange={(v) => {
           const [sortBy, order] = v.split(".");
           updateQuery({
@@ -100,6 +104,20 @@ export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
           </SelectContent>
         </SelectTrigger>
       </Select>
+
+      <Button
+        variant="ghost"
+        onClick={() => {
+          setIconRotation((prev) => prev + 360);
+          updateQuery(null);
+        }}
+        className="ml-auto cursor-pointer"
+      >
+        <TurningArrows
+          style={{ transform: `rotate(${iconRotation}deg)` }}
+          className="w-8 h-8 transition-transform duration-500 ease-in-out"
+        />
+      </Button>
     </section>
   );
 }
