@@ -32,7 +32,7 @@ export default async function DevicesHome(props: DevicesHomeProps) {
 
   return (
     <>
-      <DevicesFiltersSection />
+      <DevicesFiltersSection {...searchParams} />
 
       <Table>
         <TableHeader>

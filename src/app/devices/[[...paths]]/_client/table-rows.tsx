@@ -1,43 +1,29 @@
 "use client";
 
 import { Device } from "@/lib/api/devices";
-import { DeviceTableRow } from "./table-row";
-import { DevicePageSearchParams, DevicePageSortBy, SortOrder } from "../types";
-import { parseAsString, parseAsStringEnum, useQueryState } from "nuqs";
+import { DevicePageSearchParams } from "../types";
 import { sortDevices } from "../utils";
+import { DeviceTableRow } from "./table-row";
+import { useQueryFilterStateSync } from "./hooks";
 
 type TableRowsProps = {
   devices: Device[];
 } & DevicePageSearchParams;
 
 export function DeviceTableRows({ devices, ...props }: TableRowsProps) {
-  const [order] = useQueryState(
-    "order",
-    parseAsStringEnum<SortOrder>(Object.values(SortOrder)).withDefault(
-      props.order,
-    ),
-  );
-  const [sortBy] = useQueryState(
-    "sortBy",
-    parseAsStringEnum<DevicePageSortBy>(["name", "hddCapacity"]).withDefault(
-      props.sortBy,
-    ),
-  );
-
-  const [sytemName] = useQueryState(
-    "systemName",
-    parseAsString.withDefault(props.systemName ?? ""),
-  );
-  const [type] = useQueryState(
-    "type",
-    parseAsString.withDefault(props.type ?? ""),
-  );
+  const { systemName, type, sortBy, order } = useQueryFilterStateSync(props);
 
   let results = [...devices];
 
-  if (sytemName || type) {
+  if (systemName || type) {
     results = results.filter((device) => {
-      if (sytemName && !device.systemName.includes(sytemName)) return false;
+      // TODO make this a fuzzy search
+      if (
+        systemName &&
+        !device.systemName.toLowerCase().includes(systemName.toLowerCase())
+      )
+        return false;
+
       if (type && device.type !== type) return false;
 
       return true;
