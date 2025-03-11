@@ -6,17 +6,18 @@ export const devicePageFiltersSchema = z.object({
   type: deviceTypeSchema.optional(),
 });
 
-export enum SortOrder {
-  ASC = "asc",
-  DESC = "desc",
-}
+export const deviceTypeSearchSchema = z.enum([
+  "ALL",
+  ...deviceTypeSchema.options,
+]);
+export type DeviceTypeSearch = z.infer<typeof deviceTypeSearchSchema>;
 
-const sortBySchema = z.enum(["name", "hddCapacity", ""]).optional().default("");
-const orderSchema = z.nativeEnum(SortOrder).optional().default(SortOrder.ASC);
+export const sortBySchema = z.enum(["systemName", "hddCapacity"]);
+export const orderSchema = z.enum(["asc", "desc"]);
 
 export const devicePageSortSchema = z.object({
-  sortBy: sortBySchema.nullable(),
-  order: orderSchema.nullable(),
+  sortBy: sortBySchema.nullish(),
+  order: orderSchema.nullish(),
 });
 
 export type DevicePageFilters = z.infer<typeof devicePageFiltersSchema>;

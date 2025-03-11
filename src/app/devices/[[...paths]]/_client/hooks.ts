@@ -1,13 +1,26 @@
 import { parseAsString, parseAsStringEnum, useQueryStates } from "nuqs";
-import { DevicePageSearchParams, DevicePageSortBy, SortOrder } from "../types";
+import {
+  DevicePageSearchParams,
+  DevicePageSortBy,
+  DeviceTypeSearch,
+  deviceTypeSearchSchema,
+  orderSchema,
+  sortBySchema,
+} from "../types";
 
 export function useQueryFilterStateSync(searchParams: DevicePageSearchParams) {
   const [queryState, updateQuery] = useQueryStates(
     {
-      order: parseAsStringEnum<SortOrder>(Object.values(SortOrder)),
-      sortBy: parseAsStringEnum<DevicePageSortBy>(["name", "hddCapacity"]),
-      systemName: parseAsString,
-      type: parseAsString,
+      order: parseAsStringEnum<"asc" | "desc">(orderSchema.options).withDefault(
+        "asc",
+      ),
+      sortBy: parseAsStringEnum<DevicePageSortBy>(
+        sortBySchema.options,
+      ).withDefault("systemName"),
+      systemName: parseAsString.withDefault(""),
+      type: parseAsStringEnum<DeviceTypeSearch>(
+        deviceTypeSearchSchema.options,
+      ).withDefault("ALL"),
     },
     {
       throttleMs: 200,

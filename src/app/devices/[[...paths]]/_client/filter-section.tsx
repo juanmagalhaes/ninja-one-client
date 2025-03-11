@@ -10,21 +10,47 @@ import {
 } from "@/components/ui/select";
 import { deviceTypeSchema } from "@/lib/api/devices";
 import { SelectValue } from "@radix-ui/react-select";
-import { DevicePageSearchParams } from "../types";
+import {
+  DevicePageSearchParams,
+  DeviceTypeSearch,
+  deviceTypeSearchSchema,
+} from "../types";
 import { formatType } from "../utils";
 import { useQueryFilterStateSync } from "./hooks";
 
 type DevicesFiltersSectionProps = {} & DevicePageSearchParams;
 
+const sortOptions = [
+  {
+    sortBy: "systemName",
+    order: "asc",
+    label: "Sort by: System Name (Ascending)",
+  },
+  {
+    sortBy: "systemName",
+    order: "desc",
+    label: "Sort by: System Name (Descending)",
+  },
+  {
+    sortBy: "hddCapacity",
+    order: "asc",
+    label: "Sort by: HDD Capacity (Ascending)",
+  },
+  {
+    sortBy: "hddCapacity",
+    order: "desc",
+    label: "Sort by: HDD Capacity (Descending)",
+  },
+] as const;
+
 export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
   const { updateQuery, ...filterState } = useQueryFilterStateSync(props);
-  const selectedType = filterState.type || "ALL";
 
   return (
     <section className="flex gap-2">
       <div className="relative flex items-center">
         <Input
-          value={filterState.systemName ?? ""}
+          value={filterState.systemName}
           onChange={(e) => updateQuery({ systemName: e.target.value || null })}
           className="w-auto pl-9"
           placeholder="Search"
@@ -33,17 +59,42 @@ export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
       </div>
 
       <Select
-        value={selectedType}
-        onValueChange={(v) => updateQuery({ type: v === "ALL" ? null : v })}
+        value={filterState.type}
+        onValueChange={(type: DeviceTypeSearch) => updateQuery({ type })}
       >
-        <SelectTrigger className="w-auto data-[placeholder]:text-foreground min-w-40">
+        <SelectTrigger className="w-auto data-[placeholder]:text-foreground min-w-min">
           <SelectValue
-            placeholder={`Device Type: ${formatType(selectedType)}`}
+            placeholder={`Device Type: ${formatType(filterState.type)}`}
           />
           <SelectContent>
-            {["ALL", ...deviceTypeSchema.options].map((type) => (
+            {deviceTypeSearchSchema.options.map((type) => (
               <SelectItem key={type} value={type}>
                 {`Device Type: ${formatType(type)}`}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectTrigger>
+      </Select>
+
+      <Select
+        value={`${filterState.sortBy ?? "systemName"}.${filterState.order ?? "asc"}`}
+        onValueChange={(v) => {
+          const [sortBy, order] = v.split(".");
+          updateQuery({
+            sortBy: sortBy as "systemName" | "hddCapacity",
+            order: order as "asc" | "desc",
+          });
+        }}
+      >
+        <SelectTrigger className="w-auto data-[placeholder]:text-foreground min-w-min">
+          <SelectValue placeholder={sortOptions[0].label} />
+          <SelectContent>
+            {sortOptions.map((sortOption) => (
+              <SelectItem
+                key={sortOption.label}
+                value={`${sortOption.sortBy}.${sortOption.order}`}
+              >
+                {sortOption.label}
               </SelectItem>
             ))}
           </SelectContent>

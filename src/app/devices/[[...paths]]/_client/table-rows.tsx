@@ -24,7 +24,7 @@ export function DeviceTableRows({ devices, ...props }: TableRowsProps) {
       )
         return false;
 
-      if (type && device.type !== type) return false;
+      if (type !== "ALL" && device.type !== type) return false;
 
       return true;
     });

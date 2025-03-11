@@ -13,7 +13,9 @@ export function formatHddCapacity(gb: number | string): string {
 }
 
 export function sortDevices(devices: Device[], sort: DevicePageSort): Device[] {
-  const { sortBy, order = "asc" } = sort;
+  const order = sort.order ?? "asc";
+  const sortBy = sort.sortBy ?? "systemName";
+
   return [...devices].sort((a, b) => {
     let valueA: string | number = a.systemName.toLowerCase();
     let valueB: string | number = b.systemName.toLowerCase();
