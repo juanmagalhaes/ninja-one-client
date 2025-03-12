@@ -27,6 +27,8 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { formatHddCapacity } from "../utils";
 import { toast } from "sonner";
+import { useProgressIndicator } from "@/components/ui/progress-indicator";
+import { Loader2 } from "lucide-react";
 
 const MediaQuery = dynamic(() => import("react-responsive"), { ssr: false });
 
@@ -46,14 +48,19 @@ export function DeviceTableRow({ device }: DeviceTableRowProps) {
   const [isHovered, setIsHovered] = useState(false);
   const DeviceIcon = DEVICE_ICON_MAP[device.type];
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const { setProgressVisible, isProgressing } = useProgressIndicator();
 
-  function handleDelete() {
+  async function handleDelete() {
     try {
-      deleteDevice(device.id);
+      setProgressVisible(true);
+      await deleteDevice(device.id);
       toast.success("Device deleted successfully.");
     } catch (error) {
       toast.error("There was an error deleting the device.");
       console.error(error);
+    } finally {
+      setProgressVisible(false);
+      setDeleteDialogOpen(false);
     }
   }
 
@@ -126,13 +133,19 @@ export function DeviceTableRow({ device }: DeviceTableRowProps) {
 
               <DialogFooter>
                 <Button
+                  disabled={isProgressing}
                   variant="outline"
                   className="text-foreground"
                   onClick={() => setDeleteDialogOpen(false)}
                 >
                   Cancel
                 </Button>
-                <Button variant="destructive" onClick={handleDelete}>
+                <Button
+                  disabled={isProgressing}
+                  variant="destructive"
+                  onClick={handleDelete}
+                >
+                  {isProgressing && <Loader2 className="animate-spin" />}
                   Delete
                 </Button>
               </DialogFooter>

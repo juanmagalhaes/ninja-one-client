@@ -18,7 +18,7 @@ export function wait(ms: number) {
 }
 
 export async function registerNetworkDelayDebugger() {
-  if (ENV.DEBUG_NETWORK_DELAY) {
+  if (ENV.NODE_ENV === "development" && ENV.DEBUG_NETWORK_DELAY) {
     await wait(ENV.DEBUG_NETWORK_DELAY);
   }
 }

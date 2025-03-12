@@ -33,6 +33,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { formatType } from "../utils";
+import { useProgressIndicator } from "@/components/ui/progress-indicator";
+import { TurningArrows } from "@/components/svgs/turning-arrows";
+import { Loader, Loader2 } from "lucide-react";
 
 const formSchema = deviceSchema.omit({ id: true });
 
@@ -46,6 +49,8 @@ type DeviceModalProps = {
 export function DeviceModal({ device }: DeviceModalProps) {
   const router = useRouter();
   const onClose = useCallback(() => router.back(), [router]);
+
+  const { setProgressVisible } = useProgressIndicator();
 
   const { id, ...defaultValues } = device ?? {};
 
@@ -70,6 +75,8 @@ export function DeviceModal({ device }: DeviceModalProps) {
     if (disabled) return;
 
     try {
+      setProgressVisible(true);
+
       if (id) {
         await updateDevice(id, values);
         onClose();
@@ -83,6 +90,8 @@ export function DeviceModal({ device }: DeviceModalProps) {
     } catch (error) {
       toast.error("There was an error creating the device.");
       console.error(error);
+    } finally {
+      setProgressVisible(false);
     }
   }
 
@@ -169,10 +178,20 @@ export function DeviceModal({ device }: DeviceModalProps) {
           />
 
           <DialogFooter className="flex gap-4 justify-end mt-4">
-            <Button variant="outline" type="button" onClick={onClose}>
+            <Button
+              disabled={form.formState.isSubmitting}
+              variant="outline"
+              type="button"
+              onClick={onClose}
+            >
               Cancel
             </Button>
-            <Button disabled={disabled}>Submit</Button>
+            <Button disabled={disabled}>
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin" />
+              )}
+              Submit
+            </Button>
           </DialogFooter>
         </form>
       </Form>

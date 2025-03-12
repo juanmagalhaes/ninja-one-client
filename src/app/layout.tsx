@@ -4,6 +4,7 @@ import "./globals.css";
 import Topbar from "@/components/layout/topbar";
 import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ProgressIndicatorProvider } from "@/components/ui/progress-indicator";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -24,9 +25,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>
         <NuqsAdapter>
-          <Topbar />
-          {children}
-          <Toaster />
+          <ProgressIndicatorProvider>
+            <Topbar />
+            {children}
+            <Toaster />
+          </ProgressIndicatorProvider>
         </NuqsAdapter>
       </body>
     </html>

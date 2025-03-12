@@ -1,4 +1,5 @@
 import { toCamelCase, toSnakeCase } from "./case-utils";
+import { registerNetworkDelayDebugger } from "./utils";
 
 export class HttpClient {
   private baseUrl: string;
@@ -12,6 +13,9 @@ export class HttpClient {
     if (!response.ok) {
       throw new Error(`HTTP Error: ${response.status}`);
     }
+
+    await registerNetworkDelayDebugger();
+
     const jsonData = (await response.json()) as unknown;
     return toCamelCase<T>(jsonData);
   }

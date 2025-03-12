@@ -3,17 +3,17 @@
  */
 import z from "zod";
 
-const isDev = process.env.NODE_ENV;
+const isProd = process.env.NODE_ENV === "production";
 
-const devModeOverrides = {
-  ...(isDev === "development" && {
+const localOverrides = {
+  ...(!isProd && {
     API_URL: z.string().default("http://localhost:3000"),
   }),
 };
 
 const publicEnvSchema = z.object({
   // Automatically set by next.js
-  NODE_ENV: z.enum(["development", "production"]),
+  NODE_ENV: z.enum(["development", "test", "production"]),
 
   // Needs to be set in production
   API_URL: z.string({
@@ -25,7 +25,7 @@ const publicEnvSchema = z.object({
     .string()
     .optional()
     .transform((val) => {
-      if (val === undefined || !isDev) return undefined;
+      if (val === undefined || isProd) return undefined;
 
       const delay = parseInt(val, 10);
       if (isNaN(delay)) throw new Error("DEBUG_NETWORK_DELAY must be a number");
@@ -34,7 +34,7 @@ const publicEnvSchema = z.object({
     })
     .pipe(z.number().optional()),
 
-  ...devModeOverrides,
+  ...localOverrides,
 });
 
 export const ENV = publicEnvSchema.parse({
