@@ -2,23 +2,15 @@
 
 import { Device } from "@/lib/api/devices";
 import { sortDevices } from "../utils";
-import { DeviceTableRow } from "./table-row";
 import { useQueryFilterStateSync } from "./hooks";
-import { useSearchParams } from "next/navigation";
-import { devicePageFiltersSchema } from "../schema-types";
+import { DeviceTableRow } from "./table-row";
 
 type TableRowsProps = {
   devices: Device[];
 };
 
 export function DeviceTableRows({ devices }: TableRowsProps) {
-  const urlSearchParams = useSearchParams();
-  const searchParams = devicePageFiltersSchema.parse(
-    Object.fromEntries(urlSearchParams.entries()),
-  );
-
-  const { systemName, type, sortBy, order } =
-    useQueryFilterStateSync(searchParams);
+  const { systemName, type, sortBy, order } = useQueryFilterStateSync();
 
   let results = [...devices];
 

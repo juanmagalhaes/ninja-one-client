@@ -13,15 +13,9 @@ import {
 import { SelectValue } from "@radix-ui/react-select";
 import { useState } from "react";
 import { toast } from "sonner";
-import {
-  DevicePageSearchParams,
-  DeviceTypeSearch,
-  deviceTypeSearchSchema,
-} from "../schema-types";
+import { DeviceTypeSearch, deviceTypeSearchSchema } from "../schema-types";
 import { formatType } from "../utils";
 import { useQueryFilterStateSync } from "./hooks";
-
-type DevicesFiltersSectionProps = {} & DevicePageSearchParams;
 
 const sortOptions = [
   {
@@ -46,8 +40,8 @@ const sortOptions = [
   },
 ] as const;
 
-export function DevicesFiltersSection(props: DevicesFiltersSectionProps) {
-  const { updateQuery, ...filterState } = useQueryFilterStateSync(props);
+export function DevicesFiltersSection() {
+  const { updateQuery, ...filterState } = useQueryFilterStateSync();
   const [iconRotation, setIconRotation] = useState(0);
 
   function handleResetFilters() {
