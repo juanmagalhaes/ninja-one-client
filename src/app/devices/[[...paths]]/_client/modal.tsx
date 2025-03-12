@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -89,97 +88,95 @@ export function DeviceModal({ device }: DeviceModalProps) {
   }
 
   return (
-    <Dialog open onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader className="mb-4">
-          <DialogTitle className="font-medium text-2xl leading-[100%]">
-            {id ? "Edit Device" : "Add device"}
-          </DialogTitle>
+    <DialogContent>
+      <DialogHeader className="mb-4">
+        <DialogTitle className="font-medium text-2xl leading-[100%]">
+          {id ? "Edit Device" : "Add device"}
+        </DialogTitle>
 
-          <VisuallyHidden asChild>
-            <DialogDescription>
-              {id
-                ? `Edit the device details for ${device?.systemName}. Click submit when you are done`
-                : "Create a new device. Click submit when you are done"}
-            </DialogDescription>
-          </VisuallyHidden>
-        </DialogHeader>
+        <VisuallyHidden asChild>
+          <DialogDescription>
+            {id
+              ? `Edit the device details for ${device?.systemName}. Click submit when you are done`
+              : "Create a new device. Click submit when you are done"}
+          </DialogDescription>
+        </VisuallyHidden>
+      </DialogHeader>
 
-        <Form {...form}>
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <FormField
-              control={form.control}
-              name="systemName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>System name *</FormLabel>
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="systemName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>System name *</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Device type *</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <Input {...field} />
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    {deviceTypeSchema.options.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {formatType(type)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Device type *</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {deviceTypeSchema.options.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {formatType(type)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="hddCapacity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>HDD capacity (GB) *</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    onChange={(e) =>
+                      field.onChange(e.target.value.replace(/\D/g, ""))
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="hddCapacity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>HDD capacity (GB) *</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      onChange={(e) =>
-                        field.onChange(e.target.value.replace(/\D/g, ""))
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <DialogFooter className="flex gap-4 justify-end mt-4">
-              <Button variant="outline" type="button" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button disabled={disabled}>Submit</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter className="flex gap-4 justify-end mt-4">
+            <Button variant="outline" type="button" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button disabled={disabled}>Submit</Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </DialogContent>
   );
 }

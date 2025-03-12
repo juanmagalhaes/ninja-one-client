@@ -7,11 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeviceModalEntry from "./modal";
+import DeviceModalEntry from "./modal-entry";
 import { DevicePageSearchParams, devicePageSearchParamsSchema } from "./types";
 import DeviceTableContents from "./table-contents";
 import { DevicesFiltersSection } from "./_client/filter-section";
 import { TableRowsSkeleton } from "./skeleton";
+import { Modal } from "@/components/ui/modal";
 
 export type DevicesHomeProps = {
   params: Promise<{ paths: (string | undefined)[] }>;
@@ -51,9 +52,11 @@ export default async function DevicesHome(props: DevicesHomeProps) {
         </TableBody>
       </Table>
 
-      <Suspense fallback={<div>TODO implement modal loading fallback...</div>}>
-        <DeviceModalEntry pathname={pathname} />
-      </Suspense>
+      <Modal open={!!pathname}>
+        <Suspense fallback={<div>TODO - Modal Skelleton</div>}>
+          <DeviceModalEntry pathname={pathname} />
+        </Suspense>
+      </Modal>
     </>
   );
 }
