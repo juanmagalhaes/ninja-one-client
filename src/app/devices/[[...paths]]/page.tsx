@@ -11,6 +11,7 @@ import DeviceModalEntry from "./modal";
 import { DevicePageSearchParams, devicePageSearchParamsSchema } from "./types";
 import DeviceTableContents from "./table-contents";
 import { DevicesFiltersSection } from "./_client/filter-section";
+import { TableRowsSkeleton } from "./skeleton";
 
 export type DevicesHomeProps = {
   params: Promise<{ paths: (string | undefined)[] }>;
@@ -44,7 +45,7 @@ export default async function DevicesHome(props: DevicesHomeProps) {
         </TableHeader>
 
         <TableBody>
-          <Suspense fallback={<div>TODO improve this Loading...</div>}>
+          <Suspense fallback={<TableRowsSkeleton />}>
             <DeviceTableContents {...searchParams} />
           </Suspense>
         </TableBody>

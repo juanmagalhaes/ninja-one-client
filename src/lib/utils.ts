@@ -1,3 +1,4 @@
+import { ENV } from "@/env/public";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -14,4 +15,10 @@ export function cn(...inputs: ClassValue[]) {
  */
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export async function registerNetworkDelayDebugger() {
+  if (ENV.DEBUG_NETWORK_DELAY) {
+    await wait(ENV.DEBUG_NETWORK_DELAY);
+  }
 }

@@ -1,4 +1,5 @@
 import { devicesAPI } from "@/lib/api/devices";
+import { registerNetworkDelayDebugger } from "@/lib/utils";
 import { DeviceTableRows } from "./_client/table-rows";
 import { DevicePageSearchParams } from "./types";
 
@@ -9,6 +10,8 @@ import { DevicePageSearchParams } from "./types";
 export default async function DeviceTableContents(
   props: DevicePageSearchParams,
 ) {
+  await registerNetworkDelayDebugger();
+
   const devices = await devicesAPI.getDevices();
   return <DeviceTableRows {...props} devices={devices} />;
 }
