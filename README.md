@@ -46,9 +46,13 @@ For the UI I decided to go with an End to End test approach using playright (Thi
 pnpm test:unit
 ```
 
-## E2E tests
+## E2E tests (Incomplete)
 
 So far only the setup is done and there is just an example test that I used to verify that the configuration mostly done.
+
+## Continuous integration (Incomplete)
+
+I've added a github actions setup to run the e2e example test. I will put it to run unit and e2e and it will be more meaninful when the tests are actually complete... =D
 
 ## Things to check
 
