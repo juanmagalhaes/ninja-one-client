@@ -1,17 +1,24 @@
 "use client";
 
 import { Device } from "@/lib/api/devices";
-import { DevicePageSearchParams } from "../types";
 import { sortDevices } from "../utils";
 import { DeviceTableRow } from "./table-row";
 import { useQueryFilterStateSync } from "./hooks";
+import { useSearchParams } from "next/navigation";
+import { devicePageFiltersSchema } from "../schema-types";
 
 type TableRowsProps = {
   devices: Device[];
-} & DevicePageSearchParams;
+};
 
-export function DeviceTableRows({ devices, ...props }: TableRowsProps) {
-  const { systemName, type, sortBy, order } = useQueryFilterStateSync(props);
+export function DeviceTableRows({ devices }: TableRowsProps) {
+  const urlSearchParams = useSearchParams();
+  const searchParams = devicePageFiltersSchema.parse(
+    Object.fromEntries(urlSearchParams.entries()),
+  );
+
+  const { systemName, type, sortBy, order } =
+    useQueryFilterStateSync(searchParams);
 
   let results = [...devices];
 

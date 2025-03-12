@@ -87,6 +87,7 @@ export function DeviceTableRow({ device }: DeviceTableRowProps) {
                   className="flex flex-col items-start max-w-30 py-2 px-0"
                 >
                   <ButtonLink
+                    forwardSearch
                     variant="link"
                     className="text-foreground"
                     href={`/devices/${device.id}`}

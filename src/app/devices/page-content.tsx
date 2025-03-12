@@ -7,17 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeviceModalEntry from "./modal-entry";
-import { DevicePageSearchParams, devicePageSearchParamsSchema } from "./types";
-import DeviceTableContents from "./table-contents";
 import { DevicesFiltersSection } from "./_client/filter-section";
 import { TableRowsSkeleton } from "./skeleton";
-import { Modal } from "@/components/ui/modal";
-
-export type DevicesHomeProps = {
-  params: Promise<{ paths: (string | undefined)[] }>;
-  searchParams: Promise<DevicePageSearchParams>;
-};
+import DeviceTableContents from "./table-contents";
 
 /*
  * Server component. Renders device list and filter section.
@@ -26,15 +18,10 @@ export type DevicesHomeProps = {
  * request that gets fired insed them is made and then the
  * results get streamed to the client.
  */
-export default async function DevicesHome(props: DevicesHomeProps) {
-  const [pathname] = (await props.params).paths ?? [];
-  const searchParams = devicePageSearchParamsSchema.parse(
-    await props.searchParams,
-  );
-
+export default async function DevicesPageContent() {
   return (
     <>
-      <DevicesFiltersSection {...searchParams} />
+      <DevicesFiltersSection />
 
       <Table>
         <TableHeader>
@@ -47,16 +34,10 @@ export default async function DevicesHome(props: DevicesHomeProps) {
 
         <TableBody>
           <Suspense fallback={<TableRowsSkeleton />}>
-            <DeviceTableContents {...searchParams} />
+            <DeviceTableContents />
           </Suspense>
         </TableBody>
       </Table>
-
-      <Modal open={!!pathname}>
-        <Suspense fallback={<div>TODO - Modal Skelleton</div>}>
-          <DeviceModalEntry pathname={pathname} />
-        </Suspense>
-      </Modal>
     </>
   );
 }

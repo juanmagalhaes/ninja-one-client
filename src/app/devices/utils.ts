@@ -1,5 +1,5 @@
 import { Device } from "@/lib/api/devices";
-import { DevicePageSort } from "./types";
+import { DevicePageSort } from "./schema-types";
 import { capitalize } from "@/lib/case-utils";
 
 export function formatHddCapacity(gb: number | string): string {

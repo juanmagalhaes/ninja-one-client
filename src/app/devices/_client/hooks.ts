@@ -6,7 +6,7 @@ import {
   deviceTypeSearchSchema,
   orderSchema,
   sortBySchema,
-} from "../types";
+} from "../schema-types";
 
 export function useQueryFilterStateSync(searchParams: DevicePageSearchParams) {
   const [queryState, updateQuery] = useQueryStates(

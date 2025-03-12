@@ -1,7 +1,7 @@
 import { devicesAPI } from "@/lib/api/devices";
 import { registerNetworkDelayDebugger } from "@/lib/utils";
 import { DeviceTableRows } from "./_client/table-rows";
-import { DevicePageSearchParams } from "./types";
+import { DevicePageSearchParams } from "./schema-types";
 
 /*
  * Entry point to load table contents on the server

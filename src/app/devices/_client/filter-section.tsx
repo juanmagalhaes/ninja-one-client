@@ -17,7 +17,7 @@ import {
   DevicePageSearchParams,
   DeviceTypeSearch,
   deviceTypeSearchSchema,
-} from "../types";
+} from "../schema-types";
 import { formatType } from "../utils";
 import { useQueryFilterStateSync } from "./hooks";
 
