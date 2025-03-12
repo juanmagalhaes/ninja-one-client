@@ -1,3 +1,4 @@
+import { DialogContent } from "@/components/ui/dialog";
 import { Modal } from "@/components/ui/modal";
 
 export default function DeviceModalLayout({
@@ -5,5 +6,9 @@ export default function DeviceModalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Modal>{children}</Modal>;
+  return (
+    <Modal>
+      <DialogContent>{children}</DialogContent>
+    </Modal>
+  );
 }

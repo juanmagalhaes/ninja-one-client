@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -88,7 +87,7 @@ export function DeviceModal({ device }: DeviceModalProps) {
   }
 
   return (
-    <DialogContent>
+    <>
       <DialogHeader className="mb-4">
         <DialogTitle className="font-medium text-2xl leading-[100%]">
           {id ? "Edit Device" : "Add device"}
@@ -177,6 +176,6 @@ export function DeviceModal({ device }: DeviceModalProps) {
           </DialogFooter>
         </form>
       </Form>
-    </DialogContent>
+    </>
   );
 }

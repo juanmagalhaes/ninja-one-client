@@ -1,6 +1,13 @@
+import {
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 type TableRowsSkeletonProps = {
   rows?: number;
