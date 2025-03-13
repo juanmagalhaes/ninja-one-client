@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useProgressIndicator } from "@/components/ui/progress-indicator";
 import {
   Select,
   SelectContent,
@@ -27,15 +28,13 @@ import { Device, deviceSchema, deviceTypeSchema } from "@/lib/api/devices";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { formatType } from "../utils";
-import { useProgressIndicator } from "@/components/ui/progress-indicator";
-import { TurningArrows } from "@/components/svgs/turning-arrows";
-import { Loader, Loader2 } from "lucide-react";
 
 const formSchema = deviceSchema.omit({ id: true });
 
@@ -56,15 +55,12 @@ export function DeviceModal({ device }: DeviceModalProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    mode: "onChange",
     defaultValues: {
       systemName: "",
       hddCapacity: "",
       ...defaultValues,
     },
   });
-
-  form.getValues();
 
   const disabled =
     form.formState.isSubmitting ||
@@ -141,13 +137,13 @@ export function DeviceModal({ device }: DeviceModalProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger id="typeSelect">
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent id="typeSelectPopover">
                     {deviceTypeSchema.options.map((type) => (
-                      <SelectItem key={type} value={type}>
+                      <SelectItem key={type} value={type} id={`option-${type}`}>
                         {formatType(type)}
                       </SelectItem>
                     ))}

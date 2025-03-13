@@ -139,6 +139,16 @@ Sometimes it uses libs (normally @radix-ui) but these are very simple primitives
 you own the ui components yourself so you can decide wether to create wrapper components overriding some styles or behaivor
 or if you will directly go and change something on the building blocks to suit your needs.
 
+## Other things I would have added next, given more time...
+
+- An error boundary using next.js conventions
+  - `globalError.tsx` file
+  - `error.tsx` files where needed
+  - `notFound.tsx` files where needed, etc.
+
+Right now if an error were to occur or if you try to access a non existing page you
+will see the default next.js 404 and error pages.
+
 ## Things to check
 
 ### I added a UI for when the list is empty

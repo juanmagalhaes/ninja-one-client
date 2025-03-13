@@ -24,15 +24,19 @@ const selectors = {
   filterSection: 'section[aria-label="Filter"]',
   searchInput: 'input[name="search"]',
   typeFilter: 'button[id="typeSelectorFilter"]',
-  sortSelector: 'button[id="sortSelectorFilter"]',
-
   getTypePopoverOption(option: string) {
     return `div[id="typeSelectorFilterPopover"] div[id="option-${option}"]`;
   },
-
+  sortSelector: 'button[id="sortSelectorFilter"]',
   getSortPopoverOption(sortBy: string = "systemname", order: string = "asc") {
     return `div[id="sortSelectorFilterPopover"] div[id="option-${sortBy}-${order}"]`;
   },
+  systemNameInput: 'input[name="systemName"]',
+  typeSelect: 'button[id="typeSelect"]',
+  getTypeSelectPopoverOption(option: string) {
+    return `div[id="typeSelectPopover"] div[id="option-${option}"]`;
+  },
+  hddCapacityInput: 'input[name="hddCapacity"]',
 } as const;
 
 describe("Devices page", () => {
@@ -217,9 +221,55 @@ describe("Devices page", () => {
       expect(newColHeaders).toEqual(sortedItems.reverse());
     });
 
-    // TODO Insert new item
+    test.only("Insert a new Device", async ({ page }) => {
+      await page.goto("/devices");
+
+      let trs = page.locator(selectors.tableRows);
+      await trs.last().waitFor({ state: "visible" });
+      const rowCount = await trs.count();
+
+      // Open add modal
+      await page.getByRole("link", { name: "Add Device" }).click();
+      // Wait for modal to be open
+      await page
+        .getByRole("dialog", { name: "Add Device" })
+        .waitFor({ state: "visible" });
+
+      expect(page).toHaveURL("/devices/add");
+
+      // Expect submit button to be disabled
+      expect(
+        await page.getByRole("button", { name: "Submit" }).isDisabled(),
+      ).toBeTruthy();
+
+      // Fill in the form -> system name
+      await page.locator(selectors.systemNameInput).fill("New Device");
+      // Open type options popover
+      await page.locator(selectors.typeSelect).click();
+      // Select MAC option
+      await page.locator(selectors.getTypeSelectPopoverOption("MAC")).click();
+      // Press sequentially is important here as .fill was bypassing the events
+      // that would trigger the disabled state to change
+      await page.locator(selectors.hddCapacityInput).pressSequentially("100");
+
+      // Submit form
+      await page.getByRole("button", { name: "Submit" }).click();
+      // Wait for modal to be hidden
+      await page
+        .getByRole("dialog", { name: "Add Device" })
+        .waitFor({ state: "hidden" });
+
+      trs = page.locator(selectors.tableRows);
+      await trs.last().waitFor({ state: "visible" });
+      const newRowCount = await trs.count();
+
+      // Expect the list to have one more item
+      expect(newRowCount - rowCount).toBe(1);
+    });
 
     // TODO Edit item
+
+    // TODO modal form validation
 
     // TODO Delete item
   });
