@@ -179,5 +179,24 @@ describe("Devices page", () => {
 
       expect(rowsAfterTypeSelection).toBeLessThan(rowsAfterSearch);
     });
+
+    test("Device list gets sorted", async ({ page }) => {
+      await page.goto("/devices");
+
+      const trs = page.locator(selectors.tableRows);
+
+      // Wait for all rows to be visible
+      await trs.last().waitFor({ state: "visible" });
+
+      // Get the header section of the cel. System Name
+      const colHeaders = await Promise.all(
+        (await trs.all()).map((row) => row.locator("td h3").innerText()),
+      );
+
+      const sortedItems = [...colHeaders].sort((a, b) => a.localeCompare(b));
+
+      // Assert the initial list is sorted alphabetically
+      expect(colHeaders).toEqual(sortedItems);
+    });
   });
 });
