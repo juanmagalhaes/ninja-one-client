@@ -53,11 +53,12 @@ export function DevicesFiltersSection() {
   }
 
   return (
-    <section className="flex gap-2">
+    <section className="flex gap-2" aria-label="Filter">
       <div className="relative flex items-center">
         <Input
           value={filterState.systemName}
           onChange={(e) => updateQuery({ systemName: e.target.value || null })}
+          name="search"
           className="w-auto pl-9"
           placeholder="Search"
         />
@@ -68,7 +69,10 @@ export function DevicesFiltersSection() {
         value={filterState.type}
         onValueChange={(type: DeviceTypeSearch) => updateQuery({ type })}
       >
-        <SelectTrigger className="w-auto data-[placeholder]:text-foreground min-w-min">
+        <SelectTrigger
+          id="typeSelectorFilter"
+          className="w-auto data-[placeholder]:text-foreground min-w-min"
+        >
           <SelectValue
             placeholder={`Device Type: ${formatType(filterState.type)}`}
           />
@@ -92,7 +96,10 @@ export function DevicesFiltersSection() {
           });
         }}
       >
-        <SelectTrigger className="w-auto data-[placeholder]:text-foreground min-w-min">
+        <SelectTrigger
+          id="sortSelectorFilter"
+          className="w-auto data-[placeholder]:text-foreground min-w-min"
+        >
           <SelectValue placeholder={sortOptions[0].label} />
           <SelectContent>
             {sortOptions.map((sortOption) => (

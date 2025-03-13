@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import DevicesPageContent from "./page-content";
+
+export const metadata: Metadata = {
+  title: "NinjaOne - Devices List - View and manage your devices",
+  description: "NinjaOne React Coding Challenge",
+};
 
 /*
  * Server component. Renders device list and filter section.
