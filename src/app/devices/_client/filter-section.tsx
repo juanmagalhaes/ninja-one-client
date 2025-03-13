@@ -76,9 +76,9 @@ export function DevicesFiltersSection() {
           <SelectValue
             placeholder={`Device Type: ${formatType(filterState.type)}`}
           />
-          <SelectContent>
+          <SelectContent id="typeSelectorFilterPopover">
             {deviceTypeSearchSchema.options.map((type) => (
-              <SelectItem key={type} value={type}>
+              <SelectItem key={type} value={type} id={`option-${type}`}>
                 {`Device Type: ${formatType(type)}`}
               </SelectItem>
             ))}
@@ -101,9 +101,10 @@ export function DevicesFiltersSection() {
           className="w-auto data-[placeholder]:text-foreground min-w-min"
         >
           <SelectValue placeholder={sortOptions[0].label} />
-          <SelectContent>
+          <SelectContent id="sortSelectorFilterPopover">
             {sortOptions.map((sortOption) => (
               <SelectItem
+                id={`option-${sortOption.sortBy}-${sortOption.order}`}
                 key={sortOption.label}
                 value={`${sortOption.sortBy}.${sortOption.order}`}
               >
