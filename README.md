@@ -141,13 +141,14 @@ or if you will directly go and change something on the building blocks to suit y
 
 ## Other things I would have added next, given more time...
 
-- An error boundary using next.js conventions
-  - `globalError.tsx` file
+- More specialized error boundaries using next.js conventions
   - `error.tsx` files where needed
   - `notFound.tsx` files where needed, etc.
 
 Right now if an error were to occur or if you try to access a non existing page you
 will see the default next.js 404 and error pages.
+
+- Responsive version of the filters section. Probably with a hamburger menu that would open a modal with the filters.
 
 ## Things to check
 
@@ -162,3 +163,8 @@ To see it, delete every device manually or change "devices.json" in the API code
 <img width="967" alt="image" src="https://github.com/user-attachments/assets/6a64f55c-93cb-4263-a456-4483940cb890" />
 
 <img width="628" alt="image" src="https://github.com/user-attachments/assets/5e2e205d-f29f-479e-b558-912efe4cf17e" />
+
+### I added a global error boundary that renders the following fallback page:
+
+<img width="402" alt="image" src="https://github.com/user-attachments/assets/6ba0603f-05ed-4d8d-9919-900b662d39fb" />
+
