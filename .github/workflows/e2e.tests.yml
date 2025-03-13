@@ -1,6 +1,9 @@
 name: E2E Tests
 on:
   workflow_dispatch
+  # Disabled this action because I need to adjust playwright config
+  # for it to work properly.
+  #
   # push:
   #   branches: [main, master]
   # pull_request:

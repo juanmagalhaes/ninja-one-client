@@ -30,8 +30,8 @@ const selectors = {
     return `div[id="typeSelectorFilterPopover"] div[id="option-${option}"]`;
   },
 
-  getSortPopoverOption(option: string) {
-    return `div[id="sortSelectorFilterPopover"] div[id="option-hddCapacity-${option}"]`;
+  getSortPopoverOption(sortBy: string = "systemname", order: string = "asc") {
+    return `div[id="sortSelectorFilterPopover"] div[id="option-${sortBy}-${order}"]`;
   },
 } as const;
 
@@ -120,7 +120,9 @@ describe("Devices page", () => {
       await filterSection.locator(selectors.sortSelector).click();
 
       // Select HDD Capacity Descending
-      await page.locator(selectors.getSortPopoverOption("desc")).click();
+      await page
+        .locator(selectors.getSortPopoverOption("hddCapacity", "desc"))
+        .click();
 
       // Expect URL to have query params
       await expect(page).toHaveURL(
@@ -183,11 +185,8 @@ describe("Devices page", () => {
     test("Device list gets sorted", async ({ page }) => {
       await page.goto("/devices");
 
-      const trs = page.locator(selectors.tableRows);
-
-      // Wait for all rows to be visible
+      let trs = page.locator(selectors.tableRows);
       await trs.last().waitFor({ state: "visible" });
-
       // Get the header section of the cel. System Name
       const colHeaders = await Promise.all(
         (await trs.all()).map((row) => row.locator("td h3").innerText()),
@@ -197,6 +196,31 @@ describe("Devices page", () => {
 
       // Assert the initial list is sorted alphabetically
       expect(colHeaders).toEqual(sortedItems);
+
+      const filterSection = page.locator(selectors.filterSection);
+      // Open sort options popover
+      await filterSection.locator(selectors.sortSelector).click();
+
+      // Select System Name Descending
+      await page
+        .locator(selectors.getSortPopoverOption("systemName", "desc"))
+        .click();
+
+      trs = page.locator(selectors.tableRows);
+      await trs.last().waitFor({ state: "visible" });
+      // Get the header section of the cel. System Name
+      const newColHeaders = await Promise.all(
+        (await trs.all()).map((row) => row.locator("td h3").innerText()),
+      );
+
+      // Assert the list is now sorted in reverse order
+      expect(newColHeaders).toEqual(sortedItems.reverse());
     });
+
+    // TODO Insert new item
+
+    // TODO Edit item
+
+    // TODO Delete item
   });
 });
